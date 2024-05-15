@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "596433769617",
+    "project_id": "bitelens-90db4",
+    "storage_bucket": "bitelens-90db4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:596433769617:android:acdc297341c8bb2c2f1b30",
+        "android_client_info": {
+          "package_name": "com.example.bitelens"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "596433769617-atvae9kaeb1dh70ecgh86vo7hnjs6mm9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bitelens",
+            "certificate_hash": "36a1d8645bbec98f2c377976e02b5439838e6333"
+          }
+        },
+        {
+          "client_id": "596433769617-g14jutrgu111kms4hsndv1dpef35lcuu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxZiM8uCbQDMNwDVIaF7BCVtC_2GllyJs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "596433769617-g14jutrgu111kms4hsndv1dpef35lcuu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

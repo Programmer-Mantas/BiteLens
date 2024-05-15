@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/logo_background_dark"
+    tools:context=".SettingsFragment">
+
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="vertical"
+android:padding="16dp">
+
+<!-- Position ImageViewAvatar similarly to ImageViewLogo with specified dimensions and centering -->
+<de.hdodenhof.circleimageview.CircleImageView
+    android:id="@+id/imageViewAvatar"
+    android:layout_width="150dp"
+    android:layout_height="150dp"
+    android:src="@drawable/ic_launcher_foreground"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginTop="32dp"/>
+
+<!-- EditText for name -->
+<EditText
+    android:id="@+id/editTextName"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Name"
+    android:inputType="textPersonName"/>
+
+<!-- EditText for email -->
+<EditText
+    android:id="@+id/editTextEmail"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Email"
+    android:inputType="textEmailAddress"/>
+
+<!-- Spinner for age -->
+<Spinner
+    android:id="@+id/spinnerAge"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="12dp"/>
+
+<!-- RadioGroup for gender selection -->
+<RadioGroup
+    android:id="@+id/radioGroupGender"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="24dp">
+    <RadioButton
+        android:id="@+id/radioButtonMale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Male"/>
+    <RadioButton
+        android:id="@+id/radioButtonFemale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Female"
+        android:layout_marginLeft="12dp"/>
+    <RadioButton
+        android:id="@+id/radioButtonOther"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Prefer not to say"
+        android:layout_marginLeft="12dp"/>
+</RadioGroup>
+
+    <LinearLayout
+        android:id="@+id/buttonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="40dp">
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonSelectPhoto"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:text="Select Photo"
+        android:gravity="center"
+        app:cornerRadius="75dp"
+        android:textSize="14sp"
+        android:backgroundTint="@color/logo_green"
+        android:layout_marginEnd="16dp"/>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonSaveChanges"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:text="Save Changes"
+        android:gravity="center"
+        app:cornerRadius="75dp"
+        android:textSize="14sp"
+        android:backgroundTint="@color/logo_background"
+        android:textColor="@color/cardview_dark_background"/>
+    </LinearLayout>
+</LinearLayout>
+</ScrollView>

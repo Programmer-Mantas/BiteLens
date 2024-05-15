@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">BiteLens</string>
+    <string name="open_nav">Open Navigation Drawer</string>
+    <string name="close_nav">Close Navigation Drawer</string>
+    <string name="title_activity_log_in">LogInActivity</string>
+    <string name="total_calories_format">Calories: %.2f</string>
+    <string name="total_fat_g_format">Total fat(g): %.2f</string>
+    <string name="fat_saturated_g_format">Fat Saturated(g): %.2f</string>
+    <string name="protein_g_format">Protein(g): %.2f</string>
+    <string name="sodium_mg_format">Sodium(mg): %.2f</string>
+    <string name="potassium_mg_format">Potassium(mg): %.2f</string>
+    <string name="cholesterol_mg_format">Cholesterol(mg): %.2f</string>
+    <string name="carbohydrates_total_g_format">Carbohydrates(g): %.2f</string>
+    <string name="fiber_g_format">Fiber(g): %.2f</string>
+    <string name="sugar_g_format">Sugar(g): %.2f</string>
+</resources>

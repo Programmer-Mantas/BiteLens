@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".InfoFragment">
+
+    <TextView
+        android:id="@+id/summaryTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Summary for current month"
+        android:textAppearance="?attr/textAppearanceListItem" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Date:"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.4"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/foodDateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Calories:"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.4"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/foodCaloriesTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Total fat(g):"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.4"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/foodFatTotalTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Fat Saturated(g):"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.4"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/foodFatSaturatedTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="14sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Protein:"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.4"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/foodProteinTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="14sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Sodium:"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.4"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/foodSodiumTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="14sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Potassium:"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.4"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/foodPotassiumTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="14sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Cholesterol:"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.4"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/foodCholesterolTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="14sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Carbohydrates:"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.4"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/foodCarbohydratesTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="14sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Fiber:"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.4"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/foodFiberTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="14sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Sugar:"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.4"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/foodSugarTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="14sp" />
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/buttonSendEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send email to me"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/logo_background_dark"
+            android:textColor="@color/cardview_dark_background"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
