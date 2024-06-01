@@ -122,8 +122,8 @@ private fun firebaseAuthWithGoogle(account: GoogleSignInAccount) {
         val userProfile = UserProfile(
             name = account.displayName ?: "",
             email = account.email ?: "",
-            age = 0,  // Default age, consider allowing the user to set this later
-            gender = "",  // Default gender, consider allowing the user to set this later
+            age = 18,  // Default age, consider allowing the user to set this later
+            gender = "prefare not to say",  // Default gender, consider allowing the user to set this later
             avatarUri = account.photoUrl.toString()  // Default to Google profile picture
 
 

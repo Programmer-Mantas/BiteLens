@@ -235,7 +235,7 @@
             android:id="@+id/buttonSendEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Send email to me"
+            android:text="Share via email"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="16dp"

@@ -7,8 +7,11 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.FirebaseDatabase
 
 class RegisterActivity : AppCompatActivity() {
+    private lateinit var editTextName: EditText
     private lateinit var editTextEmail: EditText
     private lateinit var editTextPassword: EditText
     private lateinit var editTextConfirmPassword: EditText
@@ -19,6 +22,7 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
+        editTextName = findViewById(R.id.editTextUsername)
         editTextEmail = findViewById(R.id.editTextEmail)
         editTextPassword = findViewById(R.id.editTextPassword)
         editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword)
@@ -26,15 +30,20 @@ class RegisterActivity : AppCompatActivity() {
         buttonGoToLogin = findViewById(R.id.buttonGoToLogin)
 
         buttonRegister.setOnClickListener {
+            val name = editTextName.text.toString().trim()
             val email = editTextEmail.text.toString().trim()
             val password = editTextPassword.text.toString().trim()
             val confirmPassword = editTextConfirmPassword.text.toString().trim()
 
-            if (email.isNotEmpty() && password.isNotEmpty() && confirmPassword == password) {
+            if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword == password) {
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
                             Toast.makeText(this, "Registration Successful.", Toast.LENGTH_SHORT).show()
+                            val user = FirebaseAuth.getInstance().currentUser
+                            if (user != null) {
+                                createUserInDatabase(user, name)
+                            }
                             val intent = Intent(this, LogInActivity::class.java)
                             startActivity(intent)
                             finish()
@@ -54,5 +63,24 @@ class RegisterActivity : AppCompatActivity() {
         buttonGoToLogin.setOnClickListener {
             startActivity(Intent(this, LogInActivity::class.java))
         }
+    }
+
+    private fun createUserInDatabase(user: FirebaseUser, name: String) {
+        val userProfile = UserProfile(
+            name = name,
+            email = user.email ?: "",
+            age = 0,  // Default age, consider allowing the user to set this later
+            gender = "",  // Default gender, consider allowing the user to set this later
+            avatarUri = user.photoUrl?.toString() ?: ""  // Default to empty string if no photo URL
+        )
+        val dbInstance = getString(R.string.DB_ref)
+        val databaseReference = FirebaseDatabase.getInstance(dbInstance).getReference("Users")
+        databaseReference.child(user.uid).setValue(userProfile)
+            .addOnSuccessListener {
+                Toast.makeText(this, "User profile created successfully!", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Failed to create user profile: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.bitelens
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -26,6 +27,21 @@ class SettingsFragment : Fragment() {
     private lateinit var databaseReference: DatabaseReference
     private var userId: String? = null
     private var currentAvatarUri: String? = null
+    private var selectedImageUri: Uri? = null
+    private lateinit var listener: OnSettingsSaveListener
+
+    interface OnSettingsSaveListener {
+        fun onSettingsSaved()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnSettingsSaveListener) {
+            listener = context
+        } else {
+            throw RuntimeException("$context must implement OnSettingsSaveListener")
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +52,10 @@ class SettingsFragment : Fragment() {
         loadUserProfile()
         setupAgeSpinner()
         setupAvatarPicker()
-        binding.buttonSaveChanges.setOnClickListener { saveUserProfile() }
+        binding.buttonSaveChanges.setOnClickListener {
+            saveUserProfile()
+            listener.onSettingsSaved()
+        }
         return binding.root
     }
 
@@ -92,7 +111,27 @@ class SettingsFragment : Fragment() {
             else -> ""
         }
 
-        val userProfile = UserProfile(name, email, age, gender, currentAvatarUri ?: "")
+        // If a new image is selected, upload it first and then save the profile
+        if (selectedImageUri != null) {
+            val storageRef = FirebaseStorage.getInstance().reference.child("User/$userId/profile_picture.jpg")
+            storageRef.putFile(selectedImageUri!!)
+                .addOnSuccessListener { taskSnapshot ->
+                    taskSnapshot.metadata?.reference?.downloadUrl?.addOnSuccessListener { uri ->
+                        currentAvatarUri = uri.toString()
+                        val userProfile = UserProfile(name, email, age, gender, currentAvatarUri ?: "")
+                        saveUserProfileToDatabase(userProfile)
+                    }
+                }
+                .addOnFailureListener {
+                    Toast.makeText(context, "Upload failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            val userProfile = UserProfile(name, email, age, gender, currentAvatarUri ?: "")
+            saveUserProfileToDatabase(userProfile)
+        }
+    }
+
+    private fun saveUserProfileToDatabase(userProfile: UserProfile) {
         userId?.let {
             databaseReference.child(it).setValue(userProfile).addOnSuccessListener {
                 Toast.makeText(context, "Profile updated successfully!", Toast.LENGTH_SHORT).show()
@@ -129,23 +168,9 @@ class SettingsFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
             data?.data?.let { uri ->
-                uploadImageToFirebase(uri)
+                selectedImageUri = uri
+                Picasso.get().load(uri).resize(400, 400).centerCrop().into(binding.imageViewAvatar)
             }
         }
-    }
-
-    private fun uploadImageToFirebase(fileUri: Uri) {
-        val storageRef = FirebaseStorage.getInstance().reference.child("User/$userId/profile_picture.jpg")
-        storageRef.putFile(fileUri)
-            .addOnSuccessListener { taskSnapshot ->
-                taskSnapshot.metadata?.reference?.downloadUrl?.addOnSuccessListener { uri ->
-                    currentAvatarUri = uri.toString()
-                    Picasso.get().load(uri).resize(400, 400).centerCrop().into(binding.imageViewAvatar)
-                    saveUserProfile()
-                }
-            }
-            .addOnFailureListener {
-                Toast.makeText(context, "Upload failed: ${it.message}", Toast.LENGTH_SHORT).show()
-            }
     }
 }

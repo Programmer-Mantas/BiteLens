@@ -1,3 +1,4 @@
+// MainActivity.kt
 package com.example.bitelens
 
 import android.content.Intent
@@ -19,7 +20,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, SettingsFragment.OnSettingsSaveListener {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
     private lateinit var databaseReference: DatabaseReference
@@ -93,6 +94,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onResume() {
         super.onResume()
         updateNavigationHeader() // Update the header each time the activity is resumed
+    }
+
+    override fun onSettingsSaved() {
+        updateNavigationHeader()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

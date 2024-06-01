@@ -91,7 +91,7 @@ class InfoFragment : Fragment() {
     }
 
     private fun sendEmail() {
-        val recipient = "noreply@bitelens.com" // Customize or dynamically set the recipient
+        val recipient = "" // Customize or dynamically set the recipient
         val subject = "Your Monthly Food Summary"
         val message = buildEmailBody()
 

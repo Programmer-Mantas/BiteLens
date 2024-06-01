@@ -107,16 +107,22 @@ class CameraFragment : Fragment() {
             setPositiveButton("Yes") { dialog, which ->
                 fetchAndAddFood(label)
                 Toast.makeText(context, "$label added to list", Toast.LENGTH_SHORT).show()
-                isDetecting = true  // Resume detecting
-
+                postDelayedResumeDetection()
             }
             setNegativeButton("No") { dialog, which ->
                 Toast.makeText(context, "Not added", Toast.LENGTH_SHORT).show()
-                isDetecting = true  // Resume detecting
+                postDelayedResumeDetection()
             }
             setCancelable(false)
             show()
         }
+    }
+
+    private fun postDelayedResumeDetection() {
+        val handler = Handler()
+        handler.postDelayed({
+            isDetecting = true
+        }, 3000)  // 3 seconds delay
     }
 
     override fun onResume() {
@@ -138,6 +144,7 @@ class CameraFragment : Fragment() {
         handler?.looper?.quitSafely()
         handler = null
     }
+
     private fun openCamera() {
         cameraManager = requireActivity().getSystemService(Context.CAMERA_SERVICE) as CameraManager
         try {
@@ -157,7 +164,7 @@ class CameraFragment : Fragment() {
                         camera.close()
                     }
                 }, handler)
-            }else {
+            } else {
                 requestPermissions(arrayOf(Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE)
             }
         } catch (e: Exception) {
@@ -184,69 +191,67 @@ class CameraFragment : Fragment() {
         }, handler)
     }
 
-private fun fetchAndAddFood(name: String) {
-    val apiKey = getString(R.string.api_key)
-    val client = OkHttpClient()
-    val request = Request.Builder()
-        .url("https://api.calorieninjas.com/v1/nutrition?query=$name")
-        .get()
-        .addHeader("X-Api-Key", apiKey)
-        .build()
+    private fun fetchAndAddFood(name: String) {
+        val apiKey = getString(R.string.api_key)
+        val client = OkHttpClient()
+        val request = Request.Builder()
+            .url("https://api.calorieninjas.com/v1/nutrition?query=$name")
+            .get()
+            .addHeader("X-Api-Key", apiKey)
+            .build()
 
-    client.newCall(request).enqueue(object : Callback {
-        override fun onFailure(call: Call, e: IOException) {
-            activity?.runOnUiThread {
-                Toast.makeText(context, "Failed to fetch data: $e", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        override fun onResponse(call: Call, response: Response) {
-            response.use {
-                if (!response.isSuccessful) {
-                    activity?.runOnUiThread {
-                        Toast.makeText(context, "Request failed: ${response.message}", Toast.LENGTH_SHORT).show()
-                    }
-                    return
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                activity?.runOnUiThread {
+                    Toast.makeText(context, "Failed to fetch data: $e", Toast.LENGTH_SHORT).show()
                 }
-
-                val responseData = response.body?.string()
-                if (responseData != null) {
-                    try {
-                        val json = JSONObject(responseData)
-                        val itemsArray = json.getJSONArray("items")
-                        if (itemsArray.length() > 0) {
-                            val item = itemsArray.getJSONObject(0)
-                            val foodData = FoodData(
-                                id = UUID.randomUUID().toString(),
-                                userId = FirebaseAuth.getInstance().currentUser?.uid ?: "",
-                                date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date()),
-                                time = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date()),
-                                name = item.optString("name", "Unknown"),
-                                calories = item.optDouble("calories", 0.0),
-                                servingSizeG = item.optDouble("serving_size_g", 0.0),
-                                fatTotalG = item.optDouble("fat_total_g", 0.0),
-                                fatSaturatedG = item.optDouble("fat_saturated_g", 0.0),
-                                proteinG = item.optDouble("protein_g", 0.0),
-                                sodiumMg = item.optDouble("sodium_mg", 0.0),
-                                potassiumMg = item.optDouble("potassium_mg", 0.0),
-                                cholesterolMg = item.optDouble("cholesterol_mg", 0.0),
-                                carbohydratesTotalG = item.optDouble("carbohydrates_total_g", 0.0),
-                                fiberG = item.optDouble("fiber_g", 0.0),
-                                sugarG = item.optDouble("sugar_g", 0.0)
-                            )
-                            pushDataToFirebase(foodData)
-                        }
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
+            }
+            override fun onResponse(call: Call, response: Response) {
+                response.use {
+                    if (!response.isSuccessful) {
                         activity?.runOnUiThread {
-                            Toast.makeText(context, "Error parsing JSON data: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Request failed: ${response.message}", Toast.LENGTH_SHORT).show()
+                        }
+                        return
+                    }
+                    val responseData = response.body?.string()
+                    if (responseData != null) {
+                        try {
+                            val json = JSONObject(responseData)
+                            val itemsArray = json.getJSONArray("items")
+                            if (itemsArray.length() > 0) {
+                                val item = itemsArray.getJSONObject(0)
+                                val foodData = FoodData(
+                                    id = UUID.randomUUID().toString(),
+                                    userId = FirebaseAuth.getInstance().currentUser?.uid ?: "",
+                                    date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date()),
+                                    time = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date()),
+                                    name = item.optString("name", "Unknown"),
+                                    calories = item.optDouble("calories", 0.0),
+                                    servingSizeG = item.optDouble("serving_size_g", 0.0),
+                                    fatTotalG = item.optDouble("fat_total_g", 0.0),
+                                    fatSaturatedG = item.optDouble("fat_saturated_g", 0.0),
+                                    proteinG = item.optDouble("protein_g", 0.0),
+                                    sodiumMg = item.optDouble("sodium_mg", 0.0),
+                                    potassiumMg = item.optDouble("potassium_mg", 0.0),
+                                    cholesterolMg = item.optDouble("cholesterol_mg", 0.0),
+                                    carbohydratesTotalG = item.optDouble("carbohydrates_total_g", 0.0),
+                                    fiberG = item.optDouble("fiber_g", 0.0),
+                                    sugarG = item.optDouble("sugar_g", 0.0)
+                                )
+                                pushDataToFirebase(foodData)
+                            }
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                            activity?.runOnUiThread {
+                                Toast.makeText(context, "Error parsing JSON data: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+                            }
                         }
                     }
                 }
             }
-        }
-    })
-}
+        })
+    }
 
     private fun pushDataToFirebase(foodData: FoodData) {
         val databaseReference = FirebaseDatabase.getInstance("https://bitelens-90db4-default-rtdb.europe-west1.firebasedatabase.app").getReference("Foods")
@@ -305,4 +310,3 @@ private fun fetchAndAddFood(name: String) {
     }
 
 }
-
